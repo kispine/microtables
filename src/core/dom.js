@@ -23,7 +23,6 @@ class Dom {
   }
 
   off(eventType, callback) {
-    console.log(eventType, callback)
     this.$el.removeEventListener(eventType, callback)
   }
 
@@ -31,14 +30,28 @@ class Dom {
     if (node instanceof Dom) {
       node = node.$el
     }
-
-    if (Element.prototype.append) {
-      this.$el.append(node)
-    } else {
-      this.$el.appendChild(node.$el)
-    }
-
+    this.$el.appendChild(node)
     return this
+  }
+
+  closest(selector) {
+    return $(this.$el.closest(selector))
+  }
+
+  getCoords() {
+    return this.$el.getBoundingClientRect()
+  }
+
+  findAll(selector) {
+    return this.$el.querySelectorAll(selector)
+  }
+
+  css(styles = {}) {
+    Object.keys(styles).forEach(key => this.$el.style[key] = styles[key])
+  }
+
+  get data() {
+    return this.$el.dataset
   }
 }
 
