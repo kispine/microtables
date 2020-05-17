@@ -5,12 +5,36 @@ class Dom {
       : selector
   }
 
-  html(html) {
-    if (typeof html === 'string') {
-      this.$el.innerHTML = html
-      return this
-    }
+  get html() {
     return this.$el.outerHTML.trim()
+  }
+
+  set html(html) {
+    this.$el.innerHTML = html
+  }
+
+  get text() {
+    if (this.$el.tagName.toLowerCase() === 'input') {
+      return this.$el.value
+    }
+    return this.$el.textContent
+  }
+
+  set text(text) {
+    this.$el.textContent = text
+  }
+
+  len() {
+    return this.$el.innerText.length
+  }
+
+  setCursorToEnd() {
+    const range = document.createRange()
+    range.selectNodeContents(this.$el)
+    range.collapse(false)
+    const selection = window.getSelection()
+    selection.removeAllRanges()
+    selection.addRange(range)
   }
 
   clear() {
@@ -42,12 +66,42 @@ class Dom {
     return this.$el.getBoundingClientRect()
   }
 
+  find(selector) {
+    return $(this.$el.querySelector(selector))
+  }
+
   findAll(selector) {
     return this.$el.querySelectorAll(selector)
   }
 
   css(styles = {}) {
     Object.keys(styles).forEach(key => this.$el.style[key] = styles[key])
+  }
+
+  addClass(className) {
+    this.$el.classList.add(className)
+    return this
+  }
+
+  removeClass(className) {
+    this.$el.classList.remove(className)
+    return this
+  }
+
+  id(parse) {
+    if (parse) {
+      const parsed = this.id().split(':')
+      return {
+        row: +parsed[0],
+        col: +parsed[1]
+      }
+    }
+    return this.data.id
+  }
+
+  focus() {
+    this.$el.focus()
+    return this
   }
 
   get data() {

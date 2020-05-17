@@ -1,5 +1,5 @@
 .excel__table {
-  position: absolute;
+  position: relative;
   left: 0;
   right: 0;
   top: $header-height + $toolbar-height + $formula-height;
@@ -95,5 +95,14 @@
     &:hover {
       cursor: row-resize;
     }
+  }
+
+  .selection {
+    width: 400px;
+    height: 300px;
+    position: absolute;
+    top: 0;
+    background: rgba(91, 160, 239, 0.15);
+    border: 1px solid rgba(91, 160, 239, 0.6);
   }
 }
